@@ -3,6 +3,7 @@ import aiohttp
 import requests
 from typing import AsyncContextManager
 from aiohttp import ClientWebSocketResponse
+from requests.models import Response
 
 CF = 'jDSdS5pCwAeTo8Yn7bnofIG5HtFmhkMeEzJMwqn0akw-1773080987-1.2.1.1-w0VIBLvNe4qJJ3GMwqb8BZH16.BM1WDAmPZQtVxt9yKrTxBbWo7l3eEu4q8P68tPcwSDJBnje8Y.PclqGmMaC3lZ30HGrU_v7dLG6AOIIsNf_jbax62dHlQavEvQyTEM1UnNrt5ktge5Y9B7TXJ2QI7i_8duaS2ohR.PC0iK6eF.4Et1rKrE8VXmAwhImwfs1JXUrQwnQVb89TnjZt0DAvMezqQKZ5sjbpm4kPOzF9r4e06deF4l9IVbTHSKXBGT'
 
@@ -26,9 +27,9 @@ class HTTPClient:
         async with self.session.get(url) as resp:
             return await resp.read()
 
-    def post(self, url: str, **kwargs) -> bytes:
+    def post(self, url: str, **kwargs) -> Response:
         resp = requests.post(url, headers=self.headers, **kwargs)
-        return resp.content
+        return resp
 
     # Fix: don't await here; return the context manager object
     def ws_connect(self, url: str) -> AsyncContextManager[ClientWebSocketResponse]:

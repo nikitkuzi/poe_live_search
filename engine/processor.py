@@ -1,8 +1,8 @@
 from __future__ import annotations
-import json
 from network.http_client import HTTPClient
 from engine.item_queue import ItemQueue
-
+import json
+import mouse
 
 def process_item_sync(client: HTTPClient, data: bytes) -> None:
     try:
@@ -17,21 +17,39 @@ def process_item_sync(client: HTTPClient, data: bytes) -> None:
     # print(parsed["result"])
     for item in parsed.get("result", []):
         try:
+            wisp = False
+            x = item["listing"]["stash"]["x"]
+            y = item["listing"]["stash"]["y"]
             if "whisper_token" in item["listing"]:
-                print(f"whisper_token: {item["listing"]["whisper_token"]}")
+                token = item["listing"]["whisper_token"]
+                wisp = True
+                print(f"whisper_token: {token}")
+                print("successfully send whisper")
+                # continue
             else:
 
-                hideout_token = item["listing"]["hideout_token"]
-                print(f"hideout_token: {hideout_token}")
-                url = "https://www.pathofexile.com/api/trade/whisper"
-                payload = {"token": hideout_token}
-                travel = client.post(url, json=payload)
-                # exit(0)
+                token = item["listing"]["hideout_token"]
+                print(f"hideout_token: {token}")
+            url = "https://www.pathofexile.com/api/trade/whisper"
+            payload = {"token": token}
+            travel = client.post(url, json=payload)
+            if wisp:
+                continue
+            if "false" in travel.text:
+                with open("data/positions.json", 'r') as f:
+                    positions = json.load(f)
+                    mouse.move(*positions["faustus_window"][f"({x},{y})"])
+                print("Item sold")
+                continue
+            print(x,y)
+            #simulate auto buy
+            with open("data/positions.json", 'r') as f:
+                positions = json.load(f)
+                mouse.move(*positions["faustus_window"][f"({x},{y})"])
+            _ = input()
+            # exit(0)
         except Exception as e:
             print(f"couldn't process item: {item} in {parsed}\n{e}")
-    while True:
-        a = input()
-        break
     print("processing finished")
 
 
