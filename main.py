@@ -52,14 +52,15 @@ async def main():
 import json
 if __name__ == "__main__":
     asyncio.run(main())
-    # x = 55
-    # y = 260
+    # x = 450
+    # y = 385
     # pos = dict()
     # for i in range(12):
     #     for j in range(12):
-    #         pos[f"({i+1},{j+1})"] = x + 70 * i, y + 70 * j
+    #         pos[f"({i},{j})"] = x + 70 * i, y + 70 * j
     # d = dict()
     # d["resolution"] = '2560x1440'
+    # d["leave_hideout"] = [1926, 1210]
     # d["faustus_window"] = pos
     # with open("data/positions.json", "w") as f:
     #     json.dump(d, f, indent=4)

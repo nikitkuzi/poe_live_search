@@ -1,8 +1,10 @@
 from __future__ import annotations
+
 from network.http_client import HTTPClient
 from engine.item_queue import ItemQueue
+from engine.buyer import buy_item
 import json
-import mouse
+
 
 def process_item_sync(client: HTTPClient, data: bytes) -> None:
     try:
@@ -12,14 +14,14 @@ def process_item_sync(client: HTTPClient, data: bytes) -> None:
         return
 
     print("Item received:", len(data), data)
-    # print(parsed)
-    # print(type(parsed))
-    # print(parsed["result"])
+
     for item in parsed.get("result", []):
         try:
             wisp = False
             x = item["listing"]["stash"]["x"]
             y = item["listing"]["stash"]["y"]
+            price = item["listing"]["price"]["amount"]
+            currency = item["listing"]["price"]["currency"]
             if "whisper_token" in item["listing"]:
                 token = item["listing"]["whisper_token"]
                 wisp = True
@@ -27,27 +29,21 @@ def process_item_sync(client: HTTPClient, data: bytes) -> None:
                 print("successfully send whisper")
                 # continue
             else:
-
                 token = item["listing"]["hideout_token"]
                 print(f"hideout_token: {token}")
+
             url = "https://www.pathofexile.com/api/trade/whisper"
             payload = {"token": token}
             travel = client.post(url, json=payload)
             if wisp:
                 continue
             if "false" in travel.text:
-                with open("data/positions.json", 'r') as f:
-                    positions = json.load(f)
-                    mouse.move(*positions["faustus_window"][f"({x},{y})"])
                 print("Item sold")
                 continue
-            print(x,y)
-            #simulate auto buy
-            with open("data/positions.json", 'r') as f:
-                positions = json.load(f)
-                mouse.move(*positions["faustus_window"][f"({x},{y})"])
-            _ = input()
+            # simulate auto buy
+            buy_item(x, y)
             # exit(0)
+            print(f"Item bought for {price} {currency}")
         except Exception as e:
             print(f"couldn't process item: {item} in {parsed}\n{e}")
     print("processing finished")
