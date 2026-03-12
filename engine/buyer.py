@@ -24,11 +24,10 @@ def buy_item(x: int, y: int):
         faustus_window_logo = positions["faustus_window_logo"]
         menu = positions["menu"]
 
-
     status = changed_instance(faustus_window_logo["region"], faustus_window_logo["file_name"])
     if not status:
         print("Loading was too long")
-        return
+        return False
     print("Loading done")
 
     mouse.move(dx + random.randint(-5, 5), dy + random.randint(-5, 5))
@@ -51,33 +50,10 @@ def buy_item(x: int, y: int):
     time.sleep(1)
     changed_instance(menu["region"], menu["file_name"])
     print("done")
+    return True
 
 
-# def wait_util_enter(file_path: str = r"C:\Program Files (x86)\Steam\steamapps\common\Path of Exile\logs/Client.txt",
-#                     threshold_tries: int = 200) -> bool:
-#     with open(file_path, "r") as f:
-#         f.seek(0, 2)  # go to end
-#         position = f.tell()
-#         tries = 0
-#         while tries < threshold_tries:
-#             f.seek(0, 2)
-#             new_position = f.tell()
-#             if new_position > position:
-#                 f.seek(position)
-#                 chunk = f.read(new_position - position)
-#                 position = new_position
-#                 if "entered" in chunk:
-#                     return True
-#             tries += 1
-#             time.sleep(0.05)
-#         else:
-#             return False
-
-def changed_instance(region: dict[str,int], file_name: str= 'home', threshold_tries: int = 200) -> bool:
-    # if file_name == "trade":
-    #     file_name = "faustus_window_logo.npy"
-    # else:
-    #     file_name = 'menu.npy'
+def changed_instance(region: dict[str, int], file_name: str = 'home', threshold_tries: int = 200) -> bool:
     reference = np.load(Path(__file__).resolve().parents[1] / "data" / file_name)
     tries = 0
     with mss.mss() as sct:

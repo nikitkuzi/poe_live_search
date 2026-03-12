@@ -2,6 +2,8 @@ from __future__ import annotations
 import asyncio
 import json
 import aiohttp
+import orjson
+
 from network.http_client import HTTPClient
 from engine.id_queue import IDQueue
 
@@ -17,11 +19,13 @@ async def start_live_stream_ws(client: HTTPClient, search_id: str, league: str, 
                 async for msg in ws:
 
                     if msg.type == aiohttp.WSMsgType.TEXT:
-                        if "result" in msg.data:
+                        # if "result" in msg.data:
+                        print(msg.data[2:8])
+                        if msg.data[2:8] == "result":
 
                             try:
-                                event = json.loads(msg.data)
-                                item_token = event.get("result", '')
+                                event = orjson.loads(msg.data)
+                                item_token = event.get("result")
                                 if item_token:
                                     await queue.put(search_id, item_token)
                             except json.JSONDecodeError:

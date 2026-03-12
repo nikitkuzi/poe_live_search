@@ -8,6 +8,7 @@ from engine.item_queue import ItemQueue
 from engine.livestream import start_live_stream_ws
 from engine.fetch_workers import start_fetch_workers
 from engine.processor import processor_loop
+from engine.clicker import start_clicker
 
 
 async def main():
@@ -46,8 +47,8 @@ async def main():
             processor_loop(client, item_queue)
         )
     )
-
-    await asyncio.gather(*tasks)
+    click_task = asyncio.create_task(start_clicker())
+    await asyncio.gather(click_task, *tasks)
 
 import json
 if __name__ == "__main__":
