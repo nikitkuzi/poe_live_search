@@ -48,7 +48,7 @@ def process_item_sync(client: HTTPClient, data: bytes, afk: bool = True, playing
 
             payload["continue"] = "true"
             in_demand = None
-            if "message" not in travel.text:
+            if "true" not in travel.text or "message" not in travel.text:
                 in_demand = client.post(url, json=payload)
 
             print("travel_response", travel.text)
