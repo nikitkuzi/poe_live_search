@@ -15,7 +15,7 @@ def buy_item(x: int, y: int):
     # y = 748
     # x = 8
     # y = 1
-    mouse.move(5 + random.randint(0, 5), 5 + random.randint(0, 5))
+    mouse.move(1280 + random.randint(0, 5), 1200 + random.randint(0, 5), duration=0.01)
 
     with open(Path(__file__).resolve().parents[1] / "data" / "positions.json", 'r') as f:
         positions = json.load(f)
@@ -30,7 +30,7 @@ def buy_item(x: int, y: int):
         return False
     print("Loading done")
 
-    mouse.move(dx + random.randint(-5, 5), dy + random.randint(-5, 5))
+    mouse.move(dx + random.randint(-5, 5), dy + random.randint(-5, 5), duration=0.01)
 
     tries = 0
     while not click_until_bought(dx, dy) and tries < 200:
@@ -41,8 +41,9 @@ def buy_item(x: int, y: int):
         keyboard.release("ctrl")
         time.sleep(0.02)
         tries += 1
-        if tries % 20 == 0:
-            print(tries)
+        # if tries % 20 == 0:
+        #     print(tries)
+    time.sleep(1)
     keyboard.press_and_release("i")
     time.sleep(0.01)
     mouse.move(leave_hideout[0] + random.randint(-5, 5), leave_hideout[1] + random.randint(-5, 5), duration=0.01)

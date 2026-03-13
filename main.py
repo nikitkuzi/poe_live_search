@@ -11,7 +11,7 @@ from engine.processor import processor_loop
 from engine.clicker import start_clicker
 
 
-async def main():
+async def main(afk:bool=True, playing: bool=False) -> None:
 
     client = HTTPClient(config.SESSION)
 
@@ -44,15 +44,18 @@ async def main():
     # SINGLE processor
     tasks.append(
         asyncio.create_task(
-            processor_loop(client, item_queue)
+            processor_loop(client, item_queue, afk, playing)
         )
     )
-    click_task = asyncio.create_task(start_clicker())
-    await asyncio.gather(click_task, *tasks)
+    if playing:
+        await asyncio.gather(*tasks)
+    else:
+        click_task = asyncio.create_task(start_clicker())
+        await asyncio.gather(click_task, *tasks)
 
 import json
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(main(True, False))
     # x = 450
     # y = 385
     # pos = dict()

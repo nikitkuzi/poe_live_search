@@ -20,7 +20,6 @@ async def start_live_stream_ws(client: HTTPClient, search_id: str, league: str, 
 
                     if msg.type == aiohttp.WSMsgType.TEXT:
                         # if "result" in msg.data:
-                        print(msg.data[2:8])
                         if msg.data[2:8] == "result":
 
                             try:
