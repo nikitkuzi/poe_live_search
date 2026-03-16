@@ -7,7 +7,7 @@ class Config:
     SESSION = os.getenv("POESESSID")
     LEAGUE = "Mirage"
     # SEARCH_IDS = ["yYRVXKnqCR", "7ngvw0v2S5", "KlD8yZPgU5"]
-    SEARCH_IDS = ["glW8vEvaiQ", 'rPjwmZKMHQ', "LgdLY0w2In", "nrj4lRLyf0", "G6dbmqmZcb", "Lg9j3X5Xfn", "EB6bdkMLC5"]
+    SEARCH_IDS = ["rPjqqkYmHQ", 'rPjwmZKMHQ', "LgdLY0w2In", "OgwZZJJ0FE", "G6dbmqmZcb", "Lg9j3X5Xfn", "EB6bdkMLC5"]
     # SEARCH_IDS = ["9z2nRpbKfK"]
 
 config = Config()
