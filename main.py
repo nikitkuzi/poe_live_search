@@ -55,7 +55,13 @@ async def main(afk:bool=True, playing: bool=False) -> None:
 
 import json
 if __name__ == "__main__":
+    # afk
     asyncio.run(main(True, False))
+
+    # playing
+    # asyncio.run(main(False, True))
+
+
     # x = 450
     # y = 385
     # pos = dict()

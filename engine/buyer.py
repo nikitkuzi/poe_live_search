@@ -21,8 +21,10 @@ def buy_item(x: int, y: int):
         positions = json.load(f)
         dx, dy = positions["faustus_window"][f"({x},{y})"]
         leave_hideout = positions["leave_hideout"]
+
         faustus_window_logo = positions["faustus_window_logo"]
         menu = positions["menu"]
+
 
     status = changed_instance(faustus_window_logo["region"], faustus_window_logo["file_name"])
     if not status:
@@ -86,12 +88,25 @@ def click_until_bought(x: int, y: int) -> bool:
         # print("density", density)
         return density <= 10
 
-# buy_item(0,0)
 # time.sleep(2)
 # with mss.mss() as sct:
-#     region = {"top": 1300, "left": 320, "width": 60, "height": 70}
+#     region = {"top": 260, "left": 648, "width": 279, "height": 55}
 #     img = sct.grab(region)
 #
 #     frame = np.array(img)
 #     frame = frame[:, :, :3]
-#     np.save(Path(__file__).resolve().parents[1] / "data" / "menu.npy", frame)
+#     np.save(Path(__file__).resolve().parents[1] / "data" / "faustus_window_logo.npy", frame)
+
+
+# with open(Path(__file__).resolve().parents[1] / "data" / "positions.json") as file:
+#     x = 358
+#     y = 428
+#     pos = json.load(file)
+#
+#     for i in range(12):
+#         for j in range(12):
+#             pos["faustus_window"][f"({i},{j})"] = x + 77 * i, y + 77 * j
+#
+#     with open(Path(__file__).resolve().parents[1] / "data" / "positions.json", "w") as f:
+#         json.dump(pos, f, indent=4)
+#     print(pos)
